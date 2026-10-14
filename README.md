@@ -89,7 +89,7 @@ Please include this output when reporting an issue.
 Requires Xcode 16 or later.
 
 ```sh
-git clone https://github.com/<your-account>/EnoughDisplay.git
+git clone https://github.com/ginhogia/EnoughDisplay.git
 cd EnoughDisplay
 
 # Debug
@@ -207,7 +207,7 @@ App 內建診斷模式，會列出每個顯示器的資訊、可用模式與亮�
 需要 Xcode 16 以上。
 
 ```sh
-git clone https://github.com/<your-account>/EnoughDisplay.git
+git clone https://github.com/ginhogia/EnoughDisplay.git
 cd EnoughDisplay
 
 # Debug

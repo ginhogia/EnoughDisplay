@@ -12,11 +12,11 @@ protocol BrightnessControl: AnyObject {
 enum Brightness {
     /// The hardware control for `display`, or nil when its backlight cannot be controlled (it has no Brightness).
     /// Blocking: DDC probing talks to the monitor.
-    static func control(for display: Display) -> BrightnessControl? {
+    static func control(for display: Display, allowDDC: Bool = true) -> BrightnessControl? {
         if let builtIn = DisplayServicesBrightness(displayID: display.id) {
             return builtIn
         }
-        guard !display.isBuiltin else { return nil }
+        guard !display.isBuiltin, allowDDC else { return nil }
         #if arch(arm64)
         return AppleSiliconDDC.control(for: display.id)
         #else

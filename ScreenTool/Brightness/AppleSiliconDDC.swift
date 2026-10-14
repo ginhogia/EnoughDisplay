@@ -15,8 +15,11 @@ enum AppleSiliconDDC {
         let chipAddress = UInt32(DDC.monitorAddress >> 1)
         // IOAVService takes the host address byte as its data address.
         var payload = Array(message.dropFirst())
-        guard write(service, chipAddress, UInt32(DDC.hostAddress), &payload, UInt32(payload.count)) == kIOReturnSuccess
-        else { return nil }
+        let written = write(service, chipAddress, UInt32(DDC.hostAddress), &payload, UInt32(payload.count))
+        guard written == kIOReturnSuccess else {
+            DDCTrace.log?("write failed: \(String(written, radix: 16))")
+            return nil
+        }
         guard replyLength > 0 else { return [] }
         Thread.sleep(forTimeInterval: 0.05)
         var reply = [UInt8](repeating: 0, count: replyLength)
@@ -35,6 +38,7 @@ enum AppleSiliconDDC {
 
     private static func avService(for id: CGDirectDisplayID) -> CFTypeRef? {
         let candidates = externalServices()
+        DDCTrace.log?("external AV services: \(candidates.count)")
         let scored = candidates.map { candidate -> (score: Int, service: CFTypeRef) in
             var score = 0
             if candidate.vendor == CGDisplayVendorNumber(id) { score += 1 }

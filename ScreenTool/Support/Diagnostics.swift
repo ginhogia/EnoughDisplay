@@ -1,11 +1,14 @@
 import AppKit
 import CoreGraphics
 
-/// `ScreenTool --diagnose`: prints what the app sees, for checking a machine from the terminal.
+/// `ScreenTool --diagnose [--ddc]`: prints what the app sees, for checking a machine from the terminal.
+/// DDC talks to monitors over I²C and has frozen an Intel Mac, so it only runs with `--ddc`.
 enum Diagnostics {
     static func run() {
+        let probeDDC = CommandLine.arguments.contains("--ddc")
         _ = NSApplication.shared  // NSScreen needs a connection to the window server
         print("arch: \(arch)  Disconnect API: \(PrivateAPI.configureDisplayEnabled != nil ? "found" : "MISSING")")
+        DDCTrace.log = { print("    ddc: \($0)") }
         let connection = DisplayConnection()
         for display in DisplayCatalog.displays(remembered: connection.remembered) {
             print("\n[\(display.id)] \(display.name)  builtin=\(display.isBuiltin) main=\(display.isMain) state=\(display.state)"
@@ -17,12 +20,18 @@ enum Diagnostics {
                 let current = DisplayModes.current(for: display.id)
                 print("  modes: \(options.count) (\(Set(options.map(\.resolution)).count) resolutions)  current: \(current.map(describe) ?? "-")")
             }
+            #if arch(x86_64)
+            if display.isBuiltin {
+                print("  IODisplay brightness: \(IntelDDC.ioDisplayBrightness(for: display.id).map { String(format: "%.2f", $0) } ?? "unavailable")")
+            }
+            #endif
             let started = Date()
-            if let control = Brightness.control(for: display) {
+            if let control = Brightness.control(for: display, allowDDC: probeDDC) {
                 let value = control.read().map { String(format: "%.2f", $0) } ?? "unreadable"
                 print("  brightness: \(control.kind) = \(value)  (\(milliseconds(since: started)) ms)")
             } else {
-                print("  brightness: unsupported  (\(milliseconds(since: started)) ms)")
+                print("  brightness: unsupported  (\(milliseconds(since: started)) ms)"
+                      + (probeDDC || display.isBuiltin ? "" : "  — DDC not probed, add --ddc"))
             }
         }
     }

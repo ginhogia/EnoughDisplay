@@ -33,6 +33,11 @@ enum DDC {
     }
 }
 
+/// Step-by-step DDC logging, switched on by `--diagnose`.
+enum DDCTrace {
+    static var log: ((String) -> Void)?
+}
+
 /// Brightness over DDC/CI, independent of how bytes reach the monitor.
 final class DDCBrightness: BrightnessControl {
     typealias Transport = (_ write: [UInt8], _ replyLength: Int) -> [UInt8]?
@@ -61,10 +66,11 @@ final class DDCBrightness: BrightnessControl {
 
     private func query() -> (current: Int, maximum: Int)? {
         for _ in 0..<3 {
-            if let reply = transport(DDC.getVCP(DDC.brightness), DDC.replyLength),
-               let parsed = DDC.parseReply(reply, code: DDC.brightness) {
+            let reply = transport(DDC.getVCP(DDC.brightness), DDC.replyLength)
+            if let reply, let parsed = DDC.parseReply(reply, code: DDC.brightness) {
                 return parsed
             }
+            DDCTrace.log?("reply: " + (reply.map { $0.map { String(format: "%02X", $0) }.joined(separator: " ") } ?? "none"))
             Thread.sleep(forTimeInterval: 0.05)
         }
         return nil

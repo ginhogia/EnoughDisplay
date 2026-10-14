@@ -6,8 +6,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.0"
-    MARKETING_VERSION: "0.1"
-    CURRENT_PROJECT_VERSION: "1"
+    MARKETING_VERSION: "0.2"
+    CURRENT_PROJECT_VERSION: "2"
   configs:
     Release:
       ONLY_ACTIVE_ARCH: NO
@@ -22,6 +22,8 @@ targets:
         CFBundleDisplayName: EnoughDisplay
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.utilities
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.tengjau.EnoughDisplay

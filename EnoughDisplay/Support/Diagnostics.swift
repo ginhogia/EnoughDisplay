@@ -1,7 +1,7 @@
 import AppKit
 import CoreGraphics
 
-/// `ScreenTool --diagnose [--ddc]`: prints what the app sees, for checking a machine from the terminal.
+/// `EnoughDisplay --diagnose [--ddc]`: prints what the app sees, for checking a machine from the terminal.
 /// DDC talks to monitors over I²C and has frozen an Intel Mac, so it only runs with `--ddc`.
 enum Diagnostics {
     static func run() {

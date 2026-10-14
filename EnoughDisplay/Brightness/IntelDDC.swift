@@ -21,12 +21,12 @@ enum IntelDDC {
 
     /// A hung I²C request takes the whole Mac down, so every request is bracketed by an on-disk marker.
     /// A marker that survives to the next launch means the request never returned: DDC stays off for that Display.
-    /// Re-enable with `defaults delete com.tengjau.ScreenTool intelDDCDisabledDisplays`.
+    /// Re-enable with `defaults delete com.tengjau.EnoughDisplay intelDDCDisabledDisplays`.
     private enum HangGuard {
         private static let defaultsKey = "intelDDCDisabledDisplays"
         private static let marker: URL = {
             let directory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-                .appendingPathComponent("ScreenTool", isDirectory: true)
+                .appendingPathComponent("EnoughDisplay", isDirectory: true)
             try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
             return directory.appendingPathComponent("intel-ddc-in-flight")
         }()

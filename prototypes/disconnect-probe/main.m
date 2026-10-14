@@ -130,7 +130,7 @@ static int cmdVirtualTest(void) {
 
     CGVirtualDisplayDescriptor *desc = [[descCls alloc] init];
     desc.queue = dispatch_get_main_queue();
-    desc.name = @"ScreenTool Probe";
+    desc.name = @"EnoughDisplay Probe";
     desc.maxPixelsWide = 1920;
     desc.maxPixelsHigh = 1080;
     desc.sizeInMillimeters = CGSizeMake(600, 340);

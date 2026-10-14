@@ -25,7 +25,7 @@ struct MenuContentView: View {
 
             HStack {
                 Spacer()
-                Button("結束 ScreenTool") { NSApp.terminate(nil) }
+                Button("結束 EnoughDisplay") { NSApp.terminate(nil) }
                     .keyboardShortcut("q")
             }
         }

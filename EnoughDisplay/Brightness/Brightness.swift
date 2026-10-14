@@ -28,7 +28,7 @@ enum Brightness {
 /// Sends Brightness writes one at a time, dropping intermediate values while a slider is dragged.
 final class BrightnessWriter {
     let control: BrightnessControl
-    private let queue = DispatchQueue(label: "ScreenTool.BrightnessWriter")
+    private let queue = DispatchQueue(label: "EnoughDisplay.BrightnessWriter")
     private let lock = NSLock()
     private var latest: Double?
     private var draining = false

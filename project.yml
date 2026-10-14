@@ -1,4 +1,4 @@
-name: ScreenTool
+name: EnoughDisplay
 options:
   bundleIdPrefix: com.tengjau
   deploymentTarget:
@@ -12,19 +12,19 @@ settings:
     Release:
       ONLY_ACTIVE_ARCH: NO
 targets:
-  ScreenTool:
+  EnoughDisplay:
     type: application
     platform: macOS
-    sources: [ScreenTool]
+    sources: [EnoughDisplay]
     info:
-      path: ScreenTool/Info.plist
+      path: EnoughDisplay/Info.plist
       properties:
-        CFBundleDisplayName: ScreenTool
+        CFBundleDisplayName: EnoughDisplay
         LSUIElement: true
         LSApplicationCategoryType: public.app-category.utilities
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.tengjau.ScreenTool
+        PRODUCT_BUNDLE_IDENTIFIER: com.tengjau.EnoughDisplay
         # No App Sandbox: Disconnect and DDC need private and IOKit APIs (see docs/adr/0001).
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_IDENTITY: "-"

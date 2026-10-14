@@ -1,4 +1,4 @@
-# ScreenTool
+# EnoughDisplay
 
 A macOS menu-level utility for controlling the displays attached to this Mac: their resolution, whether they participate in the desktop at all, and their brightness.
 

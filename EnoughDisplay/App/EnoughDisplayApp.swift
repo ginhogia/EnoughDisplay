@@ -8,15 +8,15 @@ enum Entry {
             Diagnostics.run()
             return
         }
-        ScreenToolApp.main()
+        EnoughDisplayApp.main()
     }
 }
 
-struct ScreenToolApp: App {
+struct EnoughDisplayApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("ScreenTool", systemImage: "display.2") {
+        MenuBarExtra("EnoughDisplay", systemImage: "display.2") {
             MenuContentView(model: appDelegate.model, confirmation: appDelegate.model.confirmation)
         }
         .menuBarExtraStyle(.window)

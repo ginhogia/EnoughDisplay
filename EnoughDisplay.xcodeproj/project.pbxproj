@@ -24,6 +24,8 @@
 		DDDC73360885218C732ED73D /* PrivateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4179204AFF25B021FF5120C /* PrivateAPI.swift */; };
 		DEDE68E205551B81FFD743E5 /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D094D7EF0FDA9099DADD28 /* MenuContentView.swift */; };
 		E1A5C0DE0000000000000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1A5C0DE0000000000000002 /* Assets.xcassets */; };
+		E1A5C0DE0000000000000011 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A5C0DE0000000000000012 /* Localization.swift */; };
+		E1A5C0DE0000000000000021 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E1A5C0DE0000000000000022 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		F00D6793792158DBD2C0ED19 /* Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
 		F4379527469049CF67291D7F /* DDC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDC.swift; sourceTree = "<group>"; };
 		E1A5C0DE0000000000000002 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E1A5C0DE0000000000000012 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
+		E1A5C0DE0000000000000022 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -54,6 +58,7 @@
 			children = (
 				150CB70414BC8F843F72809E /* Info.plist */,
 				E1A5C0DE0000000000000002 /* Assets.xcassets */,
+				E1A5C0DE0000000000000022 /* Localizable.xcstrings */,
 				79F6982D2A450A25F88F56D5 /* App */,
 				C96BBCD0C8559D84A3F1F8D4 /* Brightness */,
 				35DC96EEA8478DBFB388BABF /* Displays */,
@@ -97,6 +102,7 @@
 			children = (
 				68D69FE11A200019FF360BE1 /* Diagnostics.swift */,
 				78A542C9E1B82C8F40A5EB0A /* LoginItem.swift */,
+				E1A5C0DE0000000000000012 /* Localization.swift */,
 				A4179204AFF25B021FF5120C /* PrivateAPI.swift */,
 			);
 			path = Support;
@@ -179,6 +185,7 @@
 			knownRegions = (
 				Base,
 				en,
+				"zh-Hant",
 			);
 			mainGroup = 9DE7AC7176EA4FCA6B657D59;
 			minimizedProjectReferenceProxies = 1;
@@ -198,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1A5C0DE0000000000000001 /* Assets.xcassets in Resources */,
+				E1A5C0DE0000000000000021 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +229,7 @@
 				9DFED68182459020BE77DED2 /* EnoughDisplayApp.swift in Sources */,
 				98499018E6E1B5B8B46E5A96 /* IntelDDC.swift in Sources */,
 				43C3BC3ABAAD025B454F75CC /* LoginItem.swift in Sources */,
+				E1A5C0DE0000000000000011 /* Localization.swift in Sources */,
 				DEDE68E205551B81FFD743E5 /* MenuContentView.swift in Sources */,
 				3A59C57A5303F5506DA83CFE /* ModeConfirmation.swift in Sources */,
 				DDDC73360885218C732ED73D /* PrivateAPI.swift in Sources */,

@@ -65,7 +65,8 @@ final class BrightnessWriter {
 /// Brightness through macOS's own backlight control: built-in panels and Apple displays.
 final class DisplayServicesBrightness: BrightnessControl {
     let displayID: CGDirectDisplayID
-    let kind = "系統"
+    /// Shown through the `brightness.kind.System` string.
+    let kind = "System"
     let minimumWriteInterval: TimeInterval = 0.01
 
     init?(displayID: CGDirectDisplayID) {

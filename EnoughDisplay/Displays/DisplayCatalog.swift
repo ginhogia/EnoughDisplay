@@ -52,7 +52,7 @@ enum DisplayCatalog {
            let name = names[Locale.current.identifier] ?? names["en_US"] ?? names.values.first {
             return name
         }
-        return CGDisplayIsBuiltin(id) != 0 ? "內建顯示器" : "顯示器 \(id)"
+        return CGDisplayIsBuiltin(id) != 0 ? L("display.name.builtin") : L("display.name.fallback", id)
     }
 
     private static func list(

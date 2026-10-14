@@ -26,8 +26,7 @@
 - **Hardware brightness**: built-in panels via DisplayServices, external monitors via DDC/CI, adjusting the actual backlight rather than simulating dimming in software.
 - **Mirror aware**: recognizes mirror sets and only offers mode choices on the primary display. It never creates or breaks a mirror set.
 - **Launch at login**: a checkbox in the menu.
-
-> The interface is currently in Traditional Chinese. English UI labels are given in parentheses below.
+- **English and Traditional Chinese**: follows your system language, and the English / 中文 switch at the bottom of the menu changes it instantly.
 
 ## Installation
 
@@ -46,10 +45,10 @@ Click the display icon in the menu bar. Each display gets its own section:
 
 | Control | What it does |
 | --- | --- |
-| 解析度 / 更新率 (Resolution / Refresh rate) | Pick a new mode and a confirmation panel appears. Confirm to keep it; otherwise it reverts after 15 seconds. |
-| 斷開 (Disconnect) | Stops macOS from rendering to that display. At least one display must stay connected, so the last one can't be disconnected. |
-| 重新連接 (Reconnect) | Brings a disconnected display back to the desktop. |
-| Brightness slider | Adjusts the hardware backlight. The control method is shown next to it; displays that can't be controlled show 不支援 (Unsupported). |
+| Resolution / Refresh Rate | Pick a new mode and a confirmation panel appears. Confirm to keep it; otherwise it reverts after 15 seconds. |
+| Disconnect | Stops macOS from rendering to that display. At least one display must stay connected, so the last one can't be disconnected. |
+| Reconnect | Brings a disconnected display back to the desktop. |
+| Brightness slider | Adjusts the hardware backlight. The control method is shown next to it; displays that can't be controlled show “Unsupported”. |
 
 ### Disconnect safety
 
@@ -146,6 +145,7 @@ CONTEXT.md             Domain glossary
 - **硬體亮度調整**：內建螢幕透過 DisplayServices 調整，外接螢幕透過 DDC/CI 直接調整背光，不是軟體模擬的變暗。
 - **鏡像感知**：辨識鏡像群組，只在主要顯示器上提供模式選擇，不會建立或拆散鏡像設定。
 - **開機時啟動**：可在選單中勾選。
+- **英文與繁體中文介面**：預設跟隨系統語言，也可以用選單底部的「English / 中文」切換，立即生效。
 
 ### 安裝
 

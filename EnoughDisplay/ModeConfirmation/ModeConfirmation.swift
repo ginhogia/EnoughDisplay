@@ -88,15 +88,15 @@ struct ModeConfirmationView: View {
 
     var body: some View {
         VStack(spacing: 14) {
-            Text("要保留這個顯示模式嗎？")
+            Text(L("confirmation.title"))
                 .font(.headline)
-            Text("\(confirmation.pending?.secondsLeft ?? 0) 秒後自動還原")
+            Text(L("confirmation.countdown", confirmation.pending?.secondsLeft ?? 0))
                 .monospacedDigit()
                 .foregroundStyle(.secondary)
             HStack(spacing: 12) {
-                Button("還原") { confirmation.revert() }
+                Button(L("confirmation.revert")) { confirmation.revert() }
                     .keyboardShortcut(.cancelAction)
-                Button("保留") { confirmation.confirm() }
+                Button(L("confirmation.keep")) { confirmation.confirm() }
                     .keyboardShortcut(.defaultAction)
             }
         }

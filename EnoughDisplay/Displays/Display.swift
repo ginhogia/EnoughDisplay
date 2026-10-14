@@ -30,13 +30,13 @@ enum DisplayError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .apiUnavailable:
-            return "這個 macOS 版本不支援斷開顯示器。"
+            return L("error.disconnectUnavailable")
         case .lastActiveDisplay:
-            return "至少要保留一個顯示器。"
+            return L("error.lastActiveDisplay")
         case .system(let error) where error.rawValue == 1014:
-            return "系統拒絕變更（錯誤 1014），可能有顯示器正在睡眠。請喚醒所有顯示器後再試。"
+            return L("error.displayAsleep")
         case .system(let error):
-            return "系統拒絕變更（錯誤 \(error.rawValue)）。"
+            return L("error.system", error.rawValue)
         }
     }
 }

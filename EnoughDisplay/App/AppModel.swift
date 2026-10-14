@@ -35,7 +35,7 @@ final class AppModel: ObservableObject {
     var activeDisplayCount: Int { displays.filter { $0.state == .active }.count }
 
     func name(of id: CGDirectDisplayID) -> String {
-        displays.first { $0.id == id }?.name ?? "顯示器 \(id)"
+        displays.first { $0.id == id }?.name ?? L("display.name.fallback", id)
     }
 
     // MARK: Display list
@@ -152,7 +152,7 @@ final class AppModel: ObservableObject {
         do {
             try LoginItem.setEnabled(enabled)
         } catch {
-            errorMessage = "無法變更開機啟動：\(error.localizedDescription)"
+            errorMessage = L("error.loginItem", error.localizedDescription)
         }
         launchesAtLogin = LoginItem.isEnabled
     }

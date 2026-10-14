@@ -1,0 +1,32 @@
+name: ScreenTool
+options:
+  bundleIdPrefix: com.tengjau
+  deploymentTarget:
+    macOS: "13.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1"
+    CURRENT_PROJECT_VERSION: "1"
+  configs:
+    Release:
+      ONLY_ACTIVE_ARCH: NO
+targets:
+  ScreenTool:
+    type: application
+    platform: macOS
+    sources: [ScreenTool]
+    info:
+      path: ScreenTool/Info.plist
+      properties:
+        CFBundleDisplayName: ScreenTool
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tengjau.ScreenTool
+        # No App Sandbox: Disconnect and DDC need private and IOKit APIs (see docs/adr/0001).
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: NO
+        GENERATE_INFOPLIST_FILE: NO

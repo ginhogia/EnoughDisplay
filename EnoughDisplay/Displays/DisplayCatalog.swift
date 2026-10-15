@@ -30,6 +30,10 @@ enum DisplayCatalog {
         Set(list(CGGetActiveDisplayList))
     }
 
+    static func isAnyAsleep() -> Bool {
+        list(CGGetOnlineDisplayList).contains { CGDisplayIsAsleep($0) != 0 }
+    }
+
     private static func state(of id: CGDirectDisplayID, active: Set<CGDirectDisplayID>,
                               remembered: Set<CGDirectDisplayID>) -> Display.State {
         if active.contains(id) || CGDisplayIsInMirrorSet(id) != 0 { return .active }

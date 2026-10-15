@@ -27,6 +27,24 @@ struct EnoughDisplayApp: App {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let model = AppModel()
 
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        let center = NSWorkspace.shared.notificationCenter
+        center.addObserver(self, selector: #selector(systemWillSleep), name: NSWorkspace.willSleepNotification, object: nil)
+        center.addObserver(self, selector: #selector(displaysDidWake), name: NSWorkspace.didWakeNotification, object: nil)
+        center.addObserver(self, selector: #selector(displaysDidWake), name: NSWorkspace.screensDidWakeNotification, object: nil)
+    }
+
+    @objc private func systemWillSleep(_ notification: Notification) {
+        model.prepareForSleep()
+    }
+
+    /// Lets the wake-time display reconfiguration settle before Disconnecting again.
+    @objc private func displaysDidWake(_ notification: Notification) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [model] in
+            model.restoreAfterWake()
+        }
+    }
+
     func applicationWillTerminate(_ notification: Notification) {
         model.prepareForQuit()
     }

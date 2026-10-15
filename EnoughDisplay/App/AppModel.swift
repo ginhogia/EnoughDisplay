@@ -21,6 +21,8 @@ final class AppModel: ObservableObject {
     let connection = DisplayConnection()
     private var writers: [CGDirectDisplayID: BrightnessWriter] = [:]
     private var refreshScheduled = false
+    /// Displays Disconnected before the last system sleep, waiting to be Disconnected again after wake.
+    private var disconnectedBeforeSleep: [CGDirectDisplayID] = []
 
     init() {
         confirmation.onRevertFailure = { [weak self] in self?.errorMessage = $0.localizedDescription }
@@ -155,6 +157,38 @@ final class AppModel: ObservableObject {
             errorMessage = L("error.loginItem", error.localizedDescription)
         }
         launchesAtLogin = LoginItem.isEnabled
+    }
+
+    // MARK: Sleep
+
+    /// A Display left Disconnected across system sleep can crash WindowServer on wake (seen on Intel, macOS 15),
+    /// so every Display is Reconnected before sleep and Disconnected again after wake (see docs/adr/0001).
+    func prepareForSleep() {
+        // Keep an unrestored list if the Mac sleeps again before the last wake finished restoring it.
+        if !connection.remembered.isEmpty {
+            disconnectedBeforeSleep = connection.remembered.map(\.id)
+        }
+        connection.reconnectAll()
+        refresh()
+    }
+
+    /// Disconnects again what was Disconnected before sleep, unless only built-in Displays remain.
+    /// Disconnect fails while Displays sleep, so this waits for a call made once every Display is awake.
+    func restoreAfterWake() {
+        guard !disconnectedBeforeSleep.isEmpty, !DisplayCatalog.isAnyAsleep() else { return }
+        let ids = disconnectedBeforeSleep
+        disconnectedBeforeSleep = []
+        refresh()
+        guard displays.contains(where: { $0.state == .active && !$0.isBuiltin }) else { return }
+        for id in ids {
+            guard let display = displays.first(where: { $0.id == id && $0.state == .active }) else { continue }
+            do {
+                try connection.disconnect(display, activeDisplayCount: activeDisplayCount)
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+            refresh()
+        }
     }
 
     /// Never leave a Display Disconnected or an unconfirmed Display Mode behind.

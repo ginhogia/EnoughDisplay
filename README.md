@@ -52,8 +52,9 @@ Click the display icon in the menu bar. Each display gets its own section:
 
 ### Disconnect safety
 
-- **Rebooting or replugging the cable** always brings every display back. Disconnected state is never re-applied automatically.
+- **Rebooting or replugging the cable** always brings every display back. Disconnected state is never re-applied automatically, except after sleep (below).
 - **Quitting EnoughDisplay** reconnects every disconnected display first.
+- **Before the Mac sleeps**, every disconnected display is reconnected, because a display left disconnected across sleep can crash WindowServer on wake. Once the Mac is awake and every display has woken, the same displays are disconnected again, but only if an external display is still connected. If only the built-in display remains, everything stays connected.
 - If the app crashes, the next launch offers to reconnect the displays it had disconnected.
 - Disconnect may fail while displays are asleep; wake them first.
 
@@ -171,8 +172,9 @@ CONTEXT.md             Domain glossary
 
 #### 斷開的安全設計
 
-- **重新開機或重新插拔線材**，所有顯示器一定會回來，斷開狀態不會被自動重新套用。
+- **重新開機或重新插拔線材**，所有顯示器一定會回來，斷開狀態不會被自動重新套用（睡眠例外，見下一條）。
 - **結束 EnoughDisplay** 時會先把所有已斷開的顯示器重新連接。
+- **Mac 進入睡眠前**會先把所有已斷開的顯示器重新連接，因為顯示器在斷開狀態下睡眠，喚醒時可能讓 WindowServer 當掉。喚醒且所有顯示器都醒來後，若仍有外接顯示器連著，會把睡前斷開的顯示器再斷開；若只剩內建顯示器，則全部維持連接。
 - 若 app 意外當掉，下次啟動時會提示你重新連接先前斷開的顯示器。
 - 顯示器睡眠中時斷開可能會失敗，請先喚醒顯示器。
 

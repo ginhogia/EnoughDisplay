@@ -23,6 +23,8 @@ final class AppModel: ObservableObject {
     private var refreshScheduled = false
     /// Displays Disconnected before the last system sleep, waiting to be Disconnected again after wake.
     private var disconnectedBeforeSleep: [CGDirectDisplayID] = []
+    /// Called after every Display list refresh.
+    var onDisplaysChanged: (() -> Void)?
 
     init() {
         confirmation.onRevertFailure = { [weak self] in self?.errorMessage = $0.localizedDescription }
@@ -72,6 +74,7 @@ final class AppModel: ObservableObject {
         for display in displays where display.state == .active && !previousIDs.contains(display.id) {
             probeBrightness(display)
         }
+        onDisplaysChanged?()
     }
 
     // MARK: Display Mode
@@ -172,14 +175,23 @@ final class AppModel: ObservableObject {
         refresh()
     }
 
+    /// True once every Display Reconnected for sleep is active again.
+    func isReadyForSleep() -> Bool {
+        let active = DisplayCatalog.activeIDs()
+        return disconnectedBeforeSleep.allSatisfy(active.contains)
+    }
+
     /// Disconnects again what was Disconnected before sleep, unless only built-in Displays remain.
     /// Disconnect fails while Displays sleep, so this waits for a call made once every Display is awake.
-    func restoreAfterWake() {
-        guard !disconnectedBeforeSleep.isEmpty, !DisplayCatalog.isAnyAsleep() else { return }
+    /// Returns false when a Display is still asleep and the caller should try again later.
+    @discardableResult
+    func restoreAfterWake() -> Bool {
+        guard !disconnectedBeforeSleep.isEmpty else { return true }
+        guard !DisplayCatalog.isAnyAsleep() else { return false }
         let ids = disconnectedBeforeSleep
         disconnectedBeforeSleep = []
         refresh()
-        guard displays.contains(where: { $0.state == .active && !$0.isBuiltin }) else { return }
+        guard displays.contains(where: { $0.state == .active && !$0.isBuiltin }) else { return true }
         for id in ids {
             guard let display = displays.first(where: { $0.id == id && $0.state == .active }) else { continue }
             do {
@@ -189,6 +201,7 @@ final class AppModel: ObservableObject {
             }
             refresh()
         }
+        return true
     }
 
     /// Never leave a Display Disconnected or an unconfirmed Display Mode behind.

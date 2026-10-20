@@ -27,22 +27,47 @@ struct EnoughDisplayApp: App {
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let model = AppModel()
 
+    private lazy var sleepGate = SleepGate(
+        prepare: { [model] in model.prepareForSleep() },
+        isReady: { [model] in model.isReadyForSleep() })
+    private var wakeSettle: DispatchWorkItem?
+
+    /// Disconnecting again waits this long after the last display change following wake.
+    private static let wakeQuietPeriod: TimeInterval = 8
+
     func applicationDidFinishLaunching(_ notification: Notification) {
+        sleepGate.start()
         let center = NSWorkspace.shared.notificationCenter
         center.addObserver(self, selector: #selector(systemWillSleep), name: NSWorkspace.willSleepNotification, object: nil)
-        center.addObserver(self, selector: #selector(displaysDidWake), name: NSWorkspace.didWakeNotification, object: nil)
-        center.addObserver(self, selector: #selector(displaysDidWake), name: NSWorkspace.screensDidWakeNotification, object: nil)
+        center.addObserver(self, selector: #selector(screensDidWake), name: NSWorkspace.screensDidWakeNotification, object: nil)
+        model.onDisplaysChanged = { [weak self] in self?.rearmWakeSettle() }
     }
 
+    /// Cancels a pending restore: the Mac is going back to sleep.
     @objc private func systemWillSleep(_ notification: Notification) {
-        model.prepareForSleep()
+        wakeSettle?.cancel()
+        wakeSettle = nil
     }
 
-    /// Lets the wake-time display reconfiguration settle before Disconnecting again.
-    @objc private func displaysDidWake(_ notification: Notification) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [model] in
-            model.restoreAfterWake()
+    @objc private func screensDidWake(_ notification: Notification) {
+        scheduleWakeSettle()
+    }
+
+    private func rearmWakeSettle() {
+        if wakeSettle != nil { scheduleWakeSettle() }
+    }
+
+    /// Debounced: every display change after wake restarts the quiet period, so the private Disconnect call
+    /// only runs once CoreDisplay has stopped reconfiguring.
+    private func scheduleWakeSettle() {
+        wakeSettle?.cancel()
+        let work = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.wakeSettle = nil
+            if !self.model.restoreAfterWake() { self.scheduleWakeSettle() }
         }
+        wakeSettle = work
+        DispatchQueue.main.asyncAfter(deadline: .now() + Self.wakeQuietPeriod, execute: work)
     }
 
     func applicationWillTerminate(_ notification: Notification) {

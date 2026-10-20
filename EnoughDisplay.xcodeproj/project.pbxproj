@@ -19,6 +19,7 @@
 		516AA1257EB79AB6AF5FFE31 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E37E63513A10E616F83CDD /* AppModel.swift */; };
 		645F837BE8024EF20CB6E123 /* DisplayConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B125122ABD59D5F805ED721D /* DisplayConfiguration.swift */; };
 		6C0185979671AE164E7C98D2 /* DisplayConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE46F38E927BF1B6A6C11A5 /* DisplayConnection.swift */; };
+		824E3C6C4B8900556EBDC3B5 /* MenuBarWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCAC35D626E762DF693BCC0 /* MenuBarWindow.swift */; };
 		98499018E6E1B5B8B46E5A96 /* IntelDDC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C977E3E53B4393E5C68DBA /* IntelDDC.swift */; };
 		9DFED68182459020BE77DED2 /* EnoughDisplayApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E441038B6CA48329023A1F /* EnoughDisplayApp.swift */; };
 		ADE49F25750BF71B5428A353 /* Brightness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ED2296F7C30FF1E21BBA515 /* Brightness.swift */; };
@@ -52,6 +53,7 @@
 		C9FAB049F4D23BE9042BF827 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F00D6793792158DBD2C0ED19 /* Display.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
 		F4379527469049CF67291D7F /* DDC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDC.swift; sourceTree = "<group>"; };
+		FCCAC35D626E762DF693BCC0 /* MenuBarWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -105,6 +107,7 @@
 				68D69FE11A200019FF360BE1 /* Diagnostics.swift */,
 				8BB2786FDC85845F312D2CCD /* Localization.swift */,
 				78A542C9E1B82C8F40A5EB0A /* LoginItem.swift */,
+				FCCAC35D626E762DF693BCC0 /* MenuBarWindow.swift */,
 				A4179204AFF25B021FF5120C /* PrivateAPI.swift */,
 				5617D9A4608E23A499A56048 /* SleepGate.swift */,
 			);
@@ -233,6 +236,7 @@
 				98499018E6E1B5B8B46E5A96 /* IntelDDC.swift in Sources */,
 				41B4C11A019A466CA5940C7D /* Localization.swift in Sources */,
 				43C3BC3ABAAD025B454F75CC /* LoginItem.swift in Sources */,
+				824E3C6C4B8900556EBDC3B5 /* MenuBarWindow.swift in Sources */,
 				DEDE68E205551B81FFD743E5 /* MenuContentView.swift in Sources */,
 				3A59C57A5303F5506DA83CFE /* ModeConfirmation.swift in Sources */,
 				DDDC73360885218C732ED73D /* PrivateAPI.swift in Sources */,
@@ -277,7 +281,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -296,7 +300,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.4;
+				MARKETING_VERSION = 0.4.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -380,7 +384,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -393,7 +397,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 0.4;
+				MARKETING_VERSION = 0.4.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = NO;

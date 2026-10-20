@@ -21,6 +21,7 @@ final class AppModel: ObservableObject {
     let connection = DisplayConnection()
     private var writers: [CGDirectDisplayID: BrightnessWriter] = [:]
     private var refreshScheduled = false
+    private var isReconfiguring = false
     /// Displays Disconnected before the last system sleep, waiting to be Disconnected again after wake.
     private var disconnectedBeforeSleep: [CGDirectDisplayID] = []
     /// Called after every Display list refresh.
@@ -97,24 +98,34 @@ final class AppModel: ObservableObject {
 
     // MARK: Disconnect
 
+    /// The menu bar window is closed first and the configuration runs off the main thread: reconfiguring Displays
+    /// under an open MenuBarExtra window left the menu bar beachballing until the user clicked elsewhere.
     func disconnect(_ display: Display) {
-        do {
-            try connection.disconnect(display, activeDisplayCount: activeDisplayCount)
-            errorMessage = nil
-        } catch {
-            errorMessage = error.localizedDescription
+        reconfigure {
+            try await self.connection.disconnectOffMain(display, activeDisplayCount: self.activeDisplayCount)
         }
-        refresh()
     }
 
     func reconnect(_ display: Display) {
-        do {
-            try connection.reconnect(display.id)
-            errorMessage = nil
-        } catch {
-            errorMessage = error.localizedDescription
+        reconfigure { try await self.connection.reconnectOffMain(display.id) }
+    }
+
+    private func reconfigure(_ change: @escaping () async throws -> Void) {
+        guard !isReconfiguring else { return }
+        isReconfiguring = true
+        MenuBarWindow.toggle()
+        Task {
+            // Let the window finish closing before the Displays change.
+            try? await Task.sleep(nanoseconds: 150_000_000)
+            do {
+                try await change()
+                errorMessage = nil
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+            refresh()
+            isReconfiguring = false
         }
-        refresh()
     }
 
     // MARK: Brightness

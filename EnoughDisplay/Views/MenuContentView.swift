@@ -45,6 +45,13 @@ struct MenuContentView: View {
         }
         .padding(14)
         .frame(width: 340)
+        .overlay(alignment: .topTrailing) {
+            Text(model.versionLabel)
+                .font(.system(size: 9))
+                .foregroundStyle(.tertiary)
+                .padding(.top, 3).padding(.trailing, 6)
+                .allowsHitTesting(false)
+        }
         .onAppear { model.reloadSystemBrightness() }
     }
 }

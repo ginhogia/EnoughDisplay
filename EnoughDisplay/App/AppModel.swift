@@ -15,6 +15,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var currentModes: [CGDirectDisplayID: DisplayModeOption] = [:]
     @Published private(set) var brightness: [CGDirectDisplayID: BrightnessState] = [:]
     @Published var errorMessage: String?
+    let versionLabel = "v" + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "?")
     @Published private(set) var launchesAtLogin = LoginItem.isEnabled
 
     let confirmation = ModeConfirmation()
@@ -186,10 +187,11 @@ final class AppModel: ObservableObject {
         refresh()
     }
 
-    /// True once every Display Reconnected for sleep is active again.
+    /// True once no Display is left Disconnected. A Display that is asleep cannot be Reconnected, so waiting
+    /// for it would only stall sleep.
     func isReadyForSleep() -> Bool {
-        let active = DisplayCatalog.activeIDs()
-        return disconnectedBeforeSleep.allSatisfy(active.contains)
+        connection.forgetReturned(activeIDs: DisplayCatalog.activeIDs())
+        return connection.remembered.isEmpty || DisplayCatalog.isAnyAsleep()
     }
 
     /// Disconnects again what was Disconnected before sleep, unless only built-in Displays remain.

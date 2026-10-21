@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import os
 
 /// Disconnects and Reconnects Displays, remembering which ones it Disconnected (see docs/adr/0001).
 ///
@@ -13,6 +14,7 @@ final class DisplayConnection {
         let bootTime: TimeInterval
     }
 
+    private static let log = Logger(subsystem: "EnoughDisplay", category: "connection")
     private static let defaultsKey = "disconnectedDisplays"
     private let defaults: UserDefaults
     private(set) var remembered: [Remembered]
@@ -60,7 +62,12 @@ final class DisplayConnection {
     /// Best effort: used on quit, where there is no one left to report errors to.
     func reconnectAll() {
         for display in remembered {
-            try? reconnect(display.id)
+            do {
+                try reconnect(display.id)
+                Self.log.info("Reconnected display \(display.id)")
+            } catch {
+                Self.log.error("Reconnect of display \(display.id) failed: \(error.localizedDescription, privacy: .public)")
+            }
         }
     }
 
